@@ -8,12 +8,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-<!--    <com.liefery.android.vertical_stepper_view.VerticalStepperView-->
-<!--        android:id="@+id/main_stepper"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"/>-->
-    <raivio.kaappo.koe.QuestionView
+    <com.liefery.android.vertical_stepper_view.VerticalStepperView
+        android:id="@+id/main_stepper_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+<!--    <raivio.kaappo.koe.QuestionView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

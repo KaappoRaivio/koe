@@ -6,20 +6,20 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
-public class MyLinearLayout extends LinearLayout {
-    public MyLinearLayout (Context context) {
+public class SquareLinearLayout extends LinearLayout {
+    public SquareLinearLayout (Context context) {
         super(context);
     }
 
-    public MyLinearLayout (Context context, @Nullable AttributeSet attrs) {
+    public SquareLinearLayout (Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MyLinearLayout (Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SquareLinearLayout (Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public MyLinearLayout (Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SquareLinearLayout (Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

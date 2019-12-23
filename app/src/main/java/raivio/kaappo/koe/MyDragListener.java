@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 public class MyDragListener implements View.OnDragListener {
     private View content;
 
@@ -27,26 +29,26 @@ public class MyDragListener implements View.OnDragListener {
                     originParent.removeView(viewInQuestion);
                     destination.addView(viewInQuestion);
                 } else if (((ViewGroup) view).getChildCount() == 1) {
-                    RelativeLayout otherView = (RelativeLayout) ((ViewGroup) view).getChildAt(0);
+                    ConstraintLayout otherView = (ConstraintLayout) ((ViewGroup) view).getChildAt(0);
 
                     destination.removeView(otherView);
                     originParent.addView(otherView);
                     originParent.removeView(viewInQuestion);
                     destination.addView(viewInQuestion);
-
                 }
 
-                viewInQuestion.setVisibility(View.VISIBLE);
+                viewInQuestion.post(() -> viewInQuestion.setVisibility(View.VISIBLE));
+
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
-                System.out.println("moi");
                 if (!event.getResult()) {
                     View origin = (View) event.getLocalState();
                     ((ViewGroup) origin.getParent()).removeView(origin);
                     ((ViewGroup) content.findViewById(R.id.view_question_option_holder)).addView(origin);
-                    origin.setVisibility(View.VISIBLE);
+//                    origin.setVisibility(View.VISIBLE);
+                    origin.post(() -> origin.setVisibility(View.VISIBLE));
                 }
-                System.out.println("hei");
+
                 break;
             default:
                 return true;

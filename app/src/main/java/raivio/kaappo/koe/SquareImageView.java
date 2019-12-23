@@ -6,20 +6,20 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
-public class MyImageView extends ImageView {
-    public MyImageView (Context context) {
+public class SquareImageView extends ImageView {
+    public SquareImageView (Context context) {
         super(context);
     }
 
-    public MyImageView (Context context, @Nullable AttributeSet attrs) {
+    public SquareImageView (Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MyImageView (Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SquareImageView (Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public MyImageView (Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SquareImageView (Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

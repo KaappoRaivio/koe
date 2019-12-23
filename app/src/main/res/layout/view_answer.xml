@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<raivio.kaappo.koe.MyConstraintLayout android:id="@+id/view_answer_container"
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
+<raivio.kaappo.koe.SquareConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    android:layout_margin="@dimen/main_option_margin"
-    android:background="@drawable/rectangle"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:id="@+id/view_answer_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:layout_marginTop="@dimen/main_option_margin"
+    android:layout_marginBottom="@dimen/main_option_margin"
+    android:background="@drawable/rectangle">
 
     <TextView
         android:id="@+id/view_answer_text"
@@ -21,4 +23,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
-</raivio.kaappo.koe.MyConstraintLayout>
+</raivio.kaappo.koe.SquareConstraintLayout>

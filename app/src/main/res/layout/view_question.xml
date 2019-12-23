@@ -17,8 +17,8 @@
         android:id="@+id/main_answer"
 
         android:layout_width="0dp"
-        android:layout_height="0dp"
-
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
         android:padding="@dimen/default_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -164,7 +164,7 @@
         app:layout_constraintVertical_weight="1"
 
 
-        android:padding="@dimen/default_margin"
+        android:padding="16dp"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout

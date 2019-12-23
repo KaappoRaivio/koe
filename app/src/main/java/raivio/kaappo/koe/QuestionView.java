@@ -44,7 +44,7 @@ public class QuestionView extends ConstraintLayout {
         this.context = context;
 
 
-        setOptions(Arrays.asList("A", "B", "C"));
+        setOptions(Arrays.asList("A", "B", "C", "D", "E", "F"));
         setTouchListeners();
         setDragListeners();
     }
@@ -67,6 +67,9 @@ public class QuestionView extends ConstraintLayout {
             View view = LayoutInflater.from(context).inflate(R.layout.view_answer, optionHolder, false);
             view.setId(generateViewId());
             ((TextView) view.findViewById(R.id.view_answer_text)).setText(string);
+//            view.setLayoutParams(new ConstraintLayout.LayoutParams(getOptionSlotWidth(), getOptionSlotWidth()));
+
+//            view.setMinimumHeight(getOptionSlotWidth());
             views.add(view);
         }
 
@@ -118,6 +121,10 @@ public class QuestionView extends ConstraintLayout {
 
     }
 
+    public int getOptionSlotWidth () {
+        return answer.getChildAt(0).getWidth();
+    }
+
     public void setTouchListeners () {
         for (int i = 0; i < optionHolder.getChildCount(); i++) {
             View option = optionHolder.getChildAt(i);
@@ -127,13 +134,13 @@ public class QuestionView extends ConstraintLayout {
     }
 
     public void setDragListeners () {
-        List<View> views = new ArrayList<>(Arrays.asList(optionHolder));
-        for (int i = 0; i < optionHolder.getChildCount(); i++) {
-            views.add(optionHolder.getChildAt(i));
+        List<View> views = new ArrayList<>();
+        for (int i = 0; i < answer.getChildCount(); i++) {
+            views.add(answer.getChildAt(i));
         }
         for (View view : views) {
             view.setOnDragListener(new MyDragListener(parent));
-            System.out.println(view);
+            System.out.println("View " + view);
         }
     }
 }

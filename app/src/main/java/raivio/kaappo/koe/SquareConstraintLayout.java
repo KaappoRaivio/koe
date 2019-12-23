@@ -5,16 +5,16 @@ import android.util.AttributeSet;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class MyConstraintLayout extends ConstraintLayout {
-    public MyConstraintLayout (Context context) {
+public class SquareConstraintLayout extends ConstraintLayout {
+    public SquareConstraintLayout (Context context) {
         super(context);
     }
 
-    public MyConstraintLayout (Context context, AttributeSet attrs) {
+    public SquareConstraintLayout (Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MyConstraintLayout (Context context, AttributeSet attrs, int defStyleAttr) {
+    public SquareConstraintLayout (Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -22,7 +22,7 @@ public class MyConstraintLayout extends ConstraintLayout {
     protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-        int size = Math.max(width, height);
+        int size = Math.min(width, height);
         super.onMeasure(MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY),
                         MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY));
     }
