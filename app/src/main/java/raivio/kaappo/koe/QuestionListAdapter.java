@@ -65,7 +65,7 @@ public class QuestionListAdapter extends VerticalStepperAdapter {
     }
 
     public void setTouchListeners (View content) {
-        LinearLayout l = content.findViewById(R.id.main_placeholder);
+        LinearLayout l = content.findViewById(R.id.view_question_option_holder);
         for (int i = 0; i < l.getChildCount(); i++) {
             View option = l.getChildAt(i);
             option.setOnTouchListener(new MyTouchListener());
@@ -74,7 +74,7 @@ public class QuestionListAdapter extends VerticalStepperAdapter {
     }
 
     public void setDragListeners (View content) {
-        List<View> views = Arrays.asList(content.findViewById(R.id.main_placeholder), content.findViewById(R.id.main_one), content.findViewById(R.id.main_two), content.findViewById(R.id.main_three));
+        List<View> views = Arrays.asList(content.findViewById(R.id.view_question_option_holder), content.findViewById(R.id.main_one), content.findViewById(R.id.main_two), content.findViewById(R.id.main_three));
         for (View view : views) {
             view.setOnDragListener(new MyDragListener(content));
             System.out.println(view);

@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ((VerticalStepperView) findViewById(R.id.main_stepper)).setStepperAdapter(new QuestionListAdapter(this));
+//        ((VerticalStepperView) findViewById(R.id.main_stepper)).setStepperAdapter(new QuestionListAdapter(this));
 
 //        setTouchListeners();
 //        setDragListeners();

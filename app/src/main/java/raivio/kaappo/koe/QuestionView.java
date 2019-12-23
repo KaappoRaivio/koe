@@ -6,18 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class QuestionView extends LinearLayout {
+public class QuestionView extends ConstraintLayout {
     private ConstraintLayout parent;
-    private LinearLayout placeholder;
-    private ConstraintLayout answer;
+    private LinearLayout optionHolder;
+    private LinearLayout answer;
     private Context context;
 
     public QuestionView (Context context) {
@@ -35,30 +36,43 @@ public class QuestionView extends LinearLayout {
         initialize(context);
     }
 
-    public QuestionView (Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        initialize(context);
-    }
-
 
     private void initialize (Context context) {
-        setClipChildren(true);
-        setOrientation(VERTICAL);
         parent = (ConstraintLayout) LayoutInflater.from(context).inflate(R.layout.view_question, this, true);
-        placeholder = parent.findViewById(R.id.main_placeholder);
+        optionHolder = parent.findViewById(R.id.view_question_option_holder);
         answer = parent.findViewById(R.id.main_answer);
         this.context = context;
 
+
+        setOptions(Arrays.asList("A", "B", "C"));
+        setTouchListeners();
+        setDragListeners();
     }
 
-    public void setOptions (List<String> options) throws Exception {
+    public void setOptions (List<String> options) {
         setAmountOfAnswerPlaces(options.size());
-        throw new Exception("Not implemented");
+        setAnswerOptions(options);
     }
 
     public List<String> getResult () throws Exception {
         throw new Exception("Not implemented");
     }
+
+    private void setAnswerOptions (List<String> options) {
+        optionHolder.removeAllViews();
+
+        List<View> views = new ArrayList<>();
+
+        for (String string : options) {
+            View view = LayoutInflater.from(context).inflate(R.layout.view_answer, optionHolder, false);
+            view.setId(generateViewId());
+            ((TextView) view.findViewById(R.id.view_answer_text)).setText(string);
+            views.add(view);
+        }
+
+        views.forEach(optionHolder::addView);
+    }
+
 
     private void setAmountOfAnswerPlaces (int amount) {
         answer.removeAllViews();
@@ -66,20 +80,60 @@ public class QuestionView extends LinearLayout {
 
         List<View> views = new ArrayList<>();
 
+        System.out.println("Adding views!");
+
         for (int i = 0; i < amount; i++) {
-            LinearLayout child = new LinearLayout(context);
+            LinearLayout child = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.view_option, answer, false);
+            child.setId(generateViewId());
             views.add(child);
             if (i < amount - 1) {
-                ImageView imageView = new ImageView(context);
-                imageView.setImageResource(R.drawable.less_than);
+                ImageView imageView = (ImageView) LayoutInflater.from(context).inflate(R.layout.view_less_than, answer, false);
+                imageView.setId(generateViewId());
                 views.add(imageView);
             }
         }
 
-        ConstraintSet set = new ConstraintSet();
-        for (int i = 1; i < views.size() - 1; i++) {
-            set.addToHorizontalChain(views.get(i).getId(), views.get(i - 1).getId(), views.get(i + 1).getId());
+        System.out.println("Added views!");
+        views.forEach(answer::addView);
+
+//        ConstraintSet set = new ConstraintSet();
+//        set.clone(answer);
+//
+//        View previousItem = null;
+//        for (View view : views) {
+//            boolean lastItem = views.indexOf(view) == views.size() - 1;
+//            if(previousItem == null) {
+//                set.connect(view.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.END);
+//            } else {
+//                set.connect(view.getId(), ConstraintSet.START, previousItem.getId(), ConstraintSet.END);
+//                if(lastItem) {
+//                    set.connect(view.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+//                }
+//            }
+//            previousItem = view;
+//        }
+//        //constraintSet.createHorizontalChain(ConstraintSet.PARENT_ID, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, viewIds, null, ConstraintSet.CHAIN_SPREAD);
+//        set.createHorizontalChain(ConstraintSet.PARENT_ID, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.END, views.stream().mapToInt(View::getId).toArray(), null, ConstraintSet.CHAIN_SPREAD);
+//        set.applyTo(answer);
+
+    }
+
+    public void setTouchListeners () {
+        for (int i = 0; i < optionHolder.getChildCount(); i++) {
+            View option = optionHolder.getChildAt(i);
+            option.setOnTouchListener(new MyTouchListener());
+
         }
-        set.applyTo(parent);
+    }
+
+    public void setDragListeners () {
+        List<View> views = new ArrayList<>(Arrays.asList(optionHolder));
+        for (int i = 0; i < optionHolder.getChildCount(); i++) {
+            views.add(optionHolder.getChildAt(i));
+        }
+        for (View view : views) {
+            view.setOnDragListener(new MyDragListener(parent));
+            System.out.println(view);
+        }
     }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<raivio.kaappo.koe.MyImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/view_less_than_less_than"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_gravity="center_vertical"
+    android:alpha="0.75"
+    android:contentDescription="@string/less_than"
+
+    android:padding="@dimen/main_less_than_padding"
+
+    android:src="@drawable/less_than"
+
+    android:textSize="@dimen/main_less_than_text_size"
+
+    app:layout_constraintStart_toEndOf="@id/main_one"
+    app:layout_constraintEnd_toStartOf="@id/main_two"
+    app:layout_constraintDimensionRatio="1:1"
+
+    app:layout_constraintHorizontal_weight="@integer/main_less_than_weight"
+    android:layout_weight="@integer/main_less_than_weight"
+
+
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+/>

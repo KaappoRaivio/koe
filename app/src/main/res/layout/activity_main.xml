@@ -8,8 +8,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.liefery.android.vertical_stepper_view.VerticalStepperView
-        android:id="@+id/main_stepper"
+<!--    <com.liefery.android.vertical_stepper_view.VerticalStepperView-->
+<!--        android:id="@+id/main_stepper"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
+    <raivio.kaappo.koe.QuestionView
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

@@ -7,10 +7,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 public class MyDragListener implements View.OnDragListener {
-    private View context;
+    private View content;
 
     public MyDragListener (View content) {
-        this.context = content;
+        this.content = content;
     }
 
     public boolean onDrag (View view, DragEvent event) {
@@ -23,7 +23,7 @@ public class MyDragListener implements View.OnDragListener {
                 LinearLayout originParent = (LinearLayout) viewInQuestion.getParent();
 
                 LinearLayout destination = (LinearLayout) view;
-                if (((ViewGroup) view).getChildCount() == 0 || view.getId() == R.id.main_placeholder) {
+                if (((ViewGroup) view).getChildCount() == 0 || view.getId() == R.id.view_question_option_holder) {
                     originParent.removeView(viewInQuestion);
                     destination.addView(viewInQuestion);
                 } else if (((ViewGroup) view).getChildCount() == 1) {
@@ -39,12 +39,14 @@ public class MyDragListener implements View.OnDragListener {
                 viewInQuestion.setVisibility(View.VISIBLE);
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
+                System.out.println("moi");
                 if (!event.getResult()) {
                     View origin = (View) event.getLocalState();
                     ((ViewGroup) origin.getParent()).removeView(origin);
-                    ((ViewGroup) context.findViewById(R.id.main_placeholder)).addView(origin);
+                    ((ViewGroup) content.findViewById(R.id.view_question_option_holder)).addView(origin);
                     origin.setVisibility(View.VISIBLE);
                 }
+                System.out.println("hei");
                 break;
             default:
                 return true;
