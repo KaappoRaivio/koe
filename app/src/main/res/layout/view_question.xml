@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="256dp"
+
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    >
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_answer"
+
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:padding="@dimen/default_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/main_placeholder"
+
+        app:layout_constraintVertical_weight="1"
+        >
+
+        <LinearLayout
+            android:id="@+id/main_one"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:background="@drawable/line"
+
+            android:orientation="horizontal"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/main_first_less_than"
+            app:layout_constraintDimensionRatio="1:1"
+
+            app:layout_constraintHorizontal_weight="@integer/main_option_weight"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <ImageView
+            android:id="@+id/main_first_less_than"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:alpha="0.75"
+            android:contentDescription="@string/less_than"
+
+            android:padding="@dimen/main_less_than_padding"
+
+            android:src="@drawable/less_than"
+
+            android:textSize="@dimen/main_less_than_text_size"
+
+            app:layout_constraintStart_toEndOf="@id/main_one"
+            app:layout_constraintEnd_toStartOf="@id/main_two"
+            app:layout_constraintDimensionRatio="1:1"
+
+            app:layout_constraintHorizontal_weight="@integer/main_less_than_weight"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <LinearLayout
+            android:id="@+id/main_two"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/line"
+
+            android:orientation="horizontal"
+
+            app:layout_constraintStart_toEndOf="@id/main_first_less_than"
+            app:layout_constraintEnd_toEndOf="@id/main_second_less_than"
+            app:layout_constraintDimensionRatio="1:1"
+
+            app:layout_constraintHorizontal_weight="@integer/main_option_weight"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <ImageView
+            android:id="@+id/main_second_less_than"
+            android:layout_width="0dp"
+
+            android:layout_height="0dp"
+            android:alpha="0.75"
+            android:contentDescription="@string/less_than"
+
+
+            app:layout_constraintDimensionRatio="1:1"
+
+            android:padding="@dimen/main_less_than_padding"
+
+            android:src="@drawable/less_than"
+            android:textSize="@dimen/main_less_than_text_size"
+
+            app:layout_constraintStart_toEndOf="@id/main_two"
+            app:layout_constraintEnd_toStartOf="@id/main_three"
+
+            app:layout_constraintHorizontal_weight="@integer/main_less_than_weight"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+
+            />
+
+        <LinearLayout
+            android:id="@+id/main_three"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+
+            android:background="@drawable/line"
+            android:orientation="horizontal"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toEndOf="@id/main_second_less_than"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintHorizontal_weight="@integer/main_option_weight"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/main_placeholder"
+
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/main_answer"
+        app:layout_constraintBottom_toTopOf="@id/previous"
+        app:layout_constraintVertical_weight="1"
+
+
+        android:padding="@dimen/default_margin"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_option_two"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+
+            android:layout_margin="@dimen/main_option_margin"
+            android:background="@drawable/rectangle"
+            >
+
+            <TextView
+                android:id="@+id/main_option_two_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="B"
+                android:textSize="@dimen/main_less_than_text_size"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_option_one"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+
+            android:layout_margin="@dimen/main_option_margin"
+            android:background="@drawable/rectangle"
+            >
+
+            <TextView
+                android:id="@+id/main_option_one_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="C"
+                android:textSize="@dimen/main_less_than_text_size"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/previous"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+
+        android:text="@string/previous"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/next"
+
+        app:layout_constraintTop_toBottomOf="@id/main_placeholder"
+        app:layout_constraintVertical_weight="0.5"
+        style="@style/Widget.AppCompat.Button.Borderless"
+
+        />
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBaseline_toBaselineOf="@id/previous"
+
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:text="@string/next"
+
+        style="@style/TextAppearance.AppCompat.Widget.Button"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
