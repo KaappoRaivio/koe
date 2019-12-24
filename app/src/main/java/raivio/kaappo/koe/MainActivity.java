@@ -1,10 +1,13 @@
 package raivio.kaappo.koe;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.liefery.android.vertical_stepper_view.VerticalStepperView;
+
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -12,10 +15,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ((VerticalStepperView) findViewById(R.id.main_stepper_view)).setStepperAdapter(new QuestionListAdapter(this));
+        ((QuestionView) findViewById(R.id.question_view_1)).setOptions(Arrays.asList("A", "B", "C"));
+        ((QuestionView) findViewById(R.id.question_view_2)).setOptions(Arrays.asList("A", "B", "C", "D"));
+
+//        ((VerticalStepperView) findViewById(R.id.main_stepper_view)).setStepperAdapter(new QuestionListAdapter(this));
 
 //        setTouchListeners();
 //        setDragListeners();
+        Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
+        startActivity(intent);
     }
 
 //    public void setTouchListeners () {

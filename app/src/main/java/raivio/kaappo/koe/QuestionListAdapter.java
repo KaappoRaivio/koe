@@ -40,13 +40,13 @@ public class QuestionListAdapter extends VerticalStepperAdapter {
     public View onCreateContentView (Context context, int position) {
         View content = new QuestionView(context);
 
-        Button actionContinue = content.findViewById(R.id.next);
-        actionContinue.setEnabled(position < getCount() - 1);
-        actionContinue.setOnClickListener(view -> next());
-
-        Button actionBack = content.findViewById(R.id.previous);
-        actionBack.setEnabled(position > 0);
-        actionBack.setOnClickListener(view -> previous());
+//        Button actionContinue = content.findViewById(R.id.next);
+//        actionContinue.setEnabled(position < getCount() - 1);
+//        actionContinue.setOnClickListener(view -> next());
+//
+//        Button actionBack = content.findViewById(R.id.previous);
+//        actionBack.setEnabled(position > 0);
+//        actionBack.setOnClickListener(view -> previous());
 
         return content;
     }

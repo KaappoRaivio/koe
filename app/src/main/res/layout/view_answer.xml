@@ -10,6 +10,7 @@
     android:layout_marginBottom="@dimen/main_option_margin"
     android:background="@drawable/rectangle"
     android:layout_weight="@integer/main_option_weight"
+    android:layout_gravity="center"
     >
 
     <TextView
