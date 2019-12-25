@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<raivio.kaappo.koe.SquareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:id="@+id/main_one"
     android:layout_width="0dp"
-    android:layout_height="0dp"
+    android:layout_height="match_parent"
 
     android:background="@drawable/line"
 
@@ -16,6 +16,7 @@
     app:layout_constraintHorizontal_weight="@integer/main_option_weight"
     android:layout_weight="@integer/main_option_weight"
     android:layout_gravity="center_vertical"
+    android:gravity="center"
 
 
 

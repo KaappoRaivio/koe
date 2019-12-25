@@ -218,10 +218,15 @@ public class QuestionView extends ConstraintLayout {
             int action = event.getAction();
 
             if (action == DragEvent.ACTION_DROP) {
-                View view = (View) event.getLocalState();
-                ((ViewGroup) view.getParent()).removeView(view);
-                optionHolder.addView(view);
-                view.setVisibility(View.VISIBLE);
+                try {
+                    View view = (View) event.getLocalState();
+                    ((ViewGroup) view.getParent()).removeView(view);
+                    optionHolder.addView(view);
+                    view.setVisibility(View.VISIBLE);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    return false;
+                }
             }
 
             return true;

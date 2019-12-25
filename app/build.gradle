@@ -34,4 +34,5 @@ dependencies {
 
     implementation 'com.github.liefery:android-vertical-stepper-view:0.2.1'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
 }

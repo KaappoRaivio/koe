@@ -1,4 +1,4 @@
-package raivio.kaappo.koe;
+package raivio.kaappo.koe.square;
 
 import android.content.Context;
 import android.util.AttributeSet;

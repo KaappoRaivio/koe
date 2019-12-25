@@ -1,11 +1,13 @@
-package raivio.kaappo.koe;
+package raivio.kaappo.koe.square;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.LinearLayout;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class SquareConstraintLayout extends ConstraintLayout {
+
     public SquareConstraintLayout (Context context) {
         super(context);
     }
@@ -26,4 +28,14 @@ public class SquareConstraintLayout extends ConstraintLayout {
         super.onMeasure(MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY),
                         MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY));
     }
+
+//    @Override
+//    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+////        super.onSizeChanged(w, h, oldw, oldh);
+//        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) getLayoutParams();
+//        params.width = params.height;
+//        setLayoutParams(params);
+//    }
+
+
 }

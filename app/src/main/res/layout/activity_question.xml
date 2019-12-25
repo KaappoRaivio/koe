@@ -15,4 +15,52 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/question_dots_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:dotsColor="#2af"
+        app:dotsCornerRadius="8dp"
+        app:dotsSize="16dp"
+        app:dotsSpacing="4dp"
+        app:dotsWidthFactor="2.5"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:layout_margin="@dimen/default_margin"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager2"
+        app:progressMode="true"
+        app:selectedDotColor="#2AF" />
+
+    <Button
+        android:id="@+id/question_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewPager2"
+
+        android:text="@string/next"
+        android:onClick="onButtonClicked"
+
+        style="@style/TextAppearance.AppCompat.Widget.Button"
+        />
+
+    <Button
+        android:id="@+id/question_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/previous"
+
+        app:layout_constraintEnd_toStartOf="@id/question_next"
+        app:layout_constraintBaseline_toBaselineOf="@id/question_next"
+        app:layout_constraintTop_toBottomOf="@id/viewPager2"
+
+        style="@style/Widget.AppCompat.Button.Borderless"
+
+        android:onClick="onButtonClicked"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 public final class MyTouchListener implements View.OnTouchListener {
 
@@ -19,15 +20,16 @@ public final class MyTouchListener implements View.OnTouchListener {
 
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view) {
 
-                    private static final int SCALING_FACTOR = 2;
+                    private static final float SCALING_FACTOR = 1.2f;
 
                     @Override
                     public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
                         View v = getView();
-                        final int width = v.getWidth() * SCALING_FACTOR;
-                        final int height = v.getHeight() * SCALING_FACTOR;
-                        shadowSize.set(width, height);
-                        shadowTouchPoint.set(width / 2, height);
+                        final int actualWidth = (int) (v.getWidth() * SCALING_FACTOR);
+                        final int actualHeight = (int) (v.getHeight() * SCALING_FACTOR);
+                        Toast.makeText(view.getContext(), actualWidth + ", " + actualHeight, Toast.LENGTH_LONG).show();
+                        shadowSize.set(actualWidth, actualHeight);
+                        shadowTouchPoint.set(actualWidth / 2, actualHeight);
                     }
 
                     @Override
