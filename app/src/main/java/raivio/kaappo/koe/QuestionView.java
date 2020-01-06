@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -28,6 +29,7 @@ public class QuestionView extends ConstraintLayout {
     private LinearLayout optionHolder;
     private LinearLayout answer;
     private Context context;
+    private int amountOfOptions;
 
     public QuestionView (Context context) {
         super(context);
@@ -62,6 +64,7 @@ public class QuestionView extends ConstraintLayout {
     }
 
     public void setOptions (List<String> options) {
+        amountOfOptions = options.size();
         setAmountOfAnswerPlaces(options.size());
         setAnswerOptions(options);
 
@@ -69,7 +72,7 @@ public class QuestionView extends ConstraintLayout {
         setDragListeners();
     }
 
-    public List<String> getResult () throws Exception {
+    public List<String> getResult () {
         List<String> result = new ArrayList<>();
 
         for (View view : IntStream.range(0, answer.getChildCount()).mapToObj(answer::getChildAt).collect(Collectors.toList())) {
@@ -80,13 +83,18 @@ public class QuestionView extends ConstraintLayout {
                     TextView text = (TextView) child.getChildAt(0);
                     result.add(text.getText().toString());
                 } catch (ClassCastException | IndexOutOfBoundsException | NullPointerException e) {
-                    new Exception("Not yet ready!").printStackTrace();
-                    result.add(" ");
+                    new IllegalStateException("Not yet ready!").printStackTrace();
+//                    result.add(" ");
                 }
             }
         }
         System.out.println("Result: " + result);
+
         return result;
+    }
+
+    public boolean isReady () {
+        return getResult().size() == amountOfOptions;
     }
 
     public void onNextPress (View view) {
@@ -245,6 +253,9 @@ public class QuestionView extends ConstraintLayout {
         public void bind (List<String> options) {
             questionView.setOptions(options);
         }
+//        public void bind (int amountOfOptions) {
+//            questionView.setOptions(options);
+//        }
 
         /*class CategoryViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
             constructor(parent: ViewGroup) :
@@ -258,9 +269,9 @@ public class QuestionView extends ConstraintLayout {
 
     public static class Adapter extends RecyclerView.Adapter<Holder> {
         private List<List<String>> questions;
+        private List<QuestionView> views = new ArrayList<>();
 
         public Adapter (List<List<String>> questions) {
-
             this.questions = questions;
         }
 
@@ -276,12 +287,18 @@ public class QuestionView extends ConstraintLayout {
 
         @Override
         public void onBindViewHolder (@NonNull Holder holder, int position) {
+//            holder.bind(questions.get(position));
             holder.bind(questions.get(position));
+            views.add(holder.questionView);
         }
 
         @Override
         public int getItemCount () {
             return questions.size();
+        }
+
+        public QuestionView getAt (int position) {
+            return views.get(position);
         }
     }
 }

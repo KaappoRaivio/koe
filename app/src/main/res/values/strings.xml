@@ -8,4 +8,8 @@
     <string name="next">next</string>
     <string name="previous">previous</string>
     <string name="placeholder">placeholder</string>
+    <string name="amount_of_options_in_a_question">Amount of options in a question:\ </string>
+    <string name="amount_of_questions">Amount of questions:\ </string>
+    <string name="start">start</string>
+    <string name="finish">finish</string>
 </resources>

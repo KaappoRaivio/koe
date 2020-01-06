@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".QuestionActivity">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="get"
+        android:onClick="getData2"/>
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager2"
         android:layout_width="match_parent"
