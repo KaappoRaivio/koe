@@ -2,7 +2,9 @@ package raivio.kaappo.koe;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
+import raivio.kaappo.koe.sheets.Reporter;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
@@ -13,6 +15,7 @@ import java.util.Arrays;
 public class QuestionActivity extends AppCompatActivity {
 
     private ViewPager2 pager2;
+    private Reporter reporter;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -29,7 +32,11 @@ public class QuestionActivity extends AppCompatActivity {
 
         DotsIndicator indicator = findViewById(R.id.question_dots_indicator);
         indicator.setViewPager2(pager2);
+
+
+
     }
+
 
 
     public void onButtonClicked (View view){
