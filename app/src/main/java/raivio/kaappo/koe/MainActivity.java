@@ -1,13 +1,21 @@
 package raivio.kaappo.koe;
 
+import android.Manifest;
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -22,87 +30,90 @@ import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     private static final List<String> SCOPES = Arrays.asList(SheetsScopes.SPREADSHEETS_READONLY, SheetsScopes.SPREADSHEETS);
+    static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+    static final int REQUEST_ACCOUNT_PICKER = 1000;
 
-//    @Override
-//    protected void onCreate (Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//
-//        ((QuestionView) findViewById(R.id.question_view_1)).setOptions(Arrays.asList("A", "B", "C"));
-//        ((QuestionView) findViewById(R.id.question_view_2)).setOptions(Arrays.asList("A", "B", "C", "D"));
-//
-////        ((VerticalStepperView) findViewById(R.id.main_stepper_view)).setStepperAdapter(new QuestionListAdapter(this));
-//
-////        setTouchListeners();
-////        setDragListeners();
-//        Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
-//        startActivity(intent);
-//    }
+    GoogleAccountCredential credentials;
+    private Reporter reporter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        // Google Accounts
-//        GoogleAccountCredential credential = GoogleAccountCredential.usingOAuth2(this, SCOPES)
-//                .setSelectedAccountName("kaappo.raivio")
-//                .setBackOff(new ExponentialBackOff());
-//
-//        final NetHttpTransport HTTP_TRANSPORT;
-//        HTTP_TRANSPORT = new NetHttpTransport();
-//
-//        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, new JacksonFactory(), credential)
-//                .setApplicationName("Koe")
-//                .build();
-//
-//        try {
-//            service.spreadsheets().values()
-//                    .append("1tUQ9kKtYC3K3IDGzoS8s8h50NtjYaZ4x2uq02DZMLVs", "B2:D", new ValueRange().setRange("B2:D").setValues(Arrays.asList(Arrays.asList("a", "<", "b"))))
-//                    .setValueInputOption("USER_ENTERED")
-//                    .execute();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
 
-//        SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-//        credential.setSelectedAccountName(settings.getString(PREF_ACCOUNT_NAME, null));
-//        // Tasks client
-//        service =
-//                new com.google.api.services.tasks.Tasks.Builder(httpTransport, jsonFactory, credential)
-//                        .setApplicationName("Google-TasksAndroidSample/1.0").build();
+        credentials = GoogleAccountCredential.usingOAuth2(
+                getApplicationContext(), SCOPES)
+                .setBackOff(new ExponentialBackOff());
+        getPerms();
     }
 
-//    public void setTouchListeners () {
-//        LinearLayout l = findViewById(R.id.main_placeholder);
-//        for (int i = 0; i < l.getChildCount(); i++) {
-//            View option = l.getChildAt(i);
-//            option.setOnTouchListener(new MyTouchListener());
-//
-//        }
-//    }
-//
-//    public void setDragListeners () {
-//        List<View> views = Arrays.asList(findViewById(R.id.main_placeholder), findViewById(R.id.main_one), findViewById(R.id.main_two), findViewById(R.id.main_three));
-//        for (View view : views) {
-//            view.setOnDragListener(new MyDragListener(this));
-//            System.out.println(view);
-//        }
-//
-//        findViewById(R.id.main_parent).setOnDragListener((v, event) -> {
-//            int action = event.getAction();
-//
-//            if (action == DragEvent.ACTION_DROP) {
-//                View view = (View) event.getLocalState();
-//                ((ViewGroup) view.getParent()).removeView(view);
-//                ((ViewGroup) findViewById(R.id.main_placeholder)).addView(view);
-//                view.setVisibility(View.VISIBLE);
-//            }
-//
-//            return true;
-//        });
-//    }
+    public void getData (View view) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    System.out.println("DATA: " + reporter.getDataFromApi());
+                } catch (UserRecoverableAuthIOException e) {
+                    startActivityForResult(e.getIntent(), Reporter.REQUEST_AUTHORIZATION);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public void getPerms () {
+        if (!EasyPermissions.hasPermissions(this, Manifest.permission.GET_ACCOUNTS)) {
+            EasyPermissions.requestPermissions(
+                    this,
+                    "This app needs to access your Google account (via Contacts).",
+                    REQUEST_PERMISSION_GET_ACCOUNTS,
+                    Manifest.permission.GET_ACCOUNTS);
+        } else {
+            chooseAccount();
+        }
+
+    }
+
+    public void chooseAccount () {
+        System.out.println("CHOOSING");
+        if (credentials.getSelectedAccount() == null) {
+            startActivityForResult(credentials.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_ACCOUNT_PICKER:
+                if (resultCode == RESULT_OK) {
+                    credentials.setSelectedAccountName(Objects.requireNonNull(data).getStringExtra(AccountManager.KEY_ACCOUNT_NAME));
+                }
+
+                reporter = new Reporter(credentials);
+
+                break;
+        }
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        chooseAccount();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
 }
