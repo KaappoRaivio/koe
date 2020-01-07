@@ -1,4 +1,4 @@
-package raivio.kaappo.koe;
+package raivio.kaappo.koe.ui_shit;
 
 import android.view.DragEvent;
 import android.view.View;
@@ -7,6 +7,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import raivio.kaappo.koe.R;
 
 public class MyDragListener implements View.OnDragListener {
     private View content;

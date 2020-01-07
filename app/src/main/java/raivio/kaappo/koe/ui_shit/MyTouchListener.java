@@ -1,4 +1,4 @@
-package raivio.kaappo.koe;
+package raivio.kaappo.koe.ui_shit;
 
 import android.content.ClipData;
 import android.graphics.Canvas;

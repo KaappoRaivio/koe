@@ -1,4 +1,4 @@
-package raivio.kaappo.koe;
+package raivio.kaappo.koe.ui_shit;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 
@@ -13,6 +13,8 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
+import raivio.kaappo.koe.Reporter;
 
 public class QuestionManager {
     private Reporter reporter;

@@ -1,17 +1,12 @@
-package raivio.kaappo.koe;
+package raivio.kaappo.koe.ui_shit;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.liefery.android.vertical_stepper_view.VerticalStepperAdapter;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class QuestionListAdapter extends VerticalStepperAdapter {
     public QuestionListAdapter (Context context) {

@@ -1,4 +1,4 @@
-package raivio.kaappo.koe;
+package raivio.kaappo.koe.ui_shit;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -18,11 +18,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import raivio.kaappo.koe.R;
 
 public class QuestionView extends ConstraintLayout {
     private ConstraintLayout parent;

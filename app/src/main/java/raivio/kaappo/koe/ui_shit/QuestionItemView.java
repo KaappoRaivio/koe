@@ -1,4 +1,4 @@
-package raivio.kaappo.koe;
+package raivio.kaappo.koe.ui_shit;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
+
+import raivio.kaappo.koe.R;
 
 public class QuestionItemView extends LinearLayout {
     public QuestionItemView (Context context) {

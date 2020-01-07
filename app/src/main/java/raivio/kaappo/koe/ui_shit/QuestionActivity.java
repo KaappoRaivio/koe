@@ -1,11 +1,10 @@
-package raivio.kaappo.koe;
+package raivio.kaappo.koe.ui_shit;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -13,14 +12,14 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecovera
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.viewpager2.widget.ViewPager2;
+
+import raivio.kaappo.koe.MainActivity;
+import raivio.kaappo.koe.R;
+import raivio.kaappo.koe.Reporter;
 
 import static raivio.kaappo.koe.MainActivity.AMOUNT_OF_OPTIONS;
 import static raivio.kaappo.koe.MainActivity.AMOUNT_OF_QUESTIONS;
