@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,11 +39,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     GoogleAccountCredential credentials;
     private Reporter reporter;
 
-    private TextView amountOfQuestionsText;
-    private TextView amountOfOptionsInAQuestionText;
-
-    private SeekBar amountOfQuestions;
-    private SeekBar amountOfOptionsInAQuestion;
+    private EditText amountOfQuestions;
+    private EditText amountOfOptionsInAQuestion;
 
     private QuestionManager manager;
 
@@ -53,8 +51,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        amountOfOptionsInAQuestionText = findViewById(R.id.main_amount_of_options_in_a_question_text);
-        amountOfQuestionsText = findViewById(R.id.main_amount_of_questions_text);
+
 
         amountOfQuestions = findViewById(R.id.main_amount_of_questions);
         amountOfOptionsInAQuestion = findViewById(R.id.main_amount_of_options_in_a_question);
@@ -64,56 +61,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 .setBackOff(new ExponentialBackOff());
         getPerms();
 
-        task = new AsyncTask<Integer, Void, List<List<String>>>() {
-            @Override
-            protected List<List<String>> doInBackground(Integer... ints) {
-//                return manager.getBestOptions(ints[0], ints[1]);
-                try {
-                    return manager.getBestOptions(5, 3);
-                } catch (UserRecoverableAuthIOException e) {
-                    startActivityForResult(e.getIntent(), REQUEST_AUTHORISATION);
-                    return null;
-                }
-            }
-        };
 
-        amountOfOptionsInAQuestion.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                amountOfOptionsInAQuestionText.setText(R.string.amount_of_options_in_a_question);
-                amountOfOptionsInAQuestionText.append(progress + 2 + "");
-//                task.cancel(true);
-//                task.execute(amountOfQuestions.getProgress() + 2, amountOfOptionsInAQuestion.getProgress() + 2);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        amountOfQuestions.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                amountOfQuestionsText.setText(R.string.amount_of_questions);
-                amountOfQuestionsText.append(progress + 2 + "");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
     }
 
     public static List<List<String>> questions;
@@ -122,8 +70,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         manager = new QuestionManager(reporter);
         Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt(AMOUNT_OF_QUESTIONS, amountOfQuestions.getProgress() + 2);
-        bundle.putInt(AMOUNT_OF_OPTIONS, amountOfOptionsInAQuestion.getProgress() + 2);
+        bundle.putInt(AMOUNT_OF_QUESTIONS, Integer.parseInt(amountOfQuestions.getText().toString()));
+        bundle.putInt(AMOUNT_OF_OPTIONS, Integer.parseInt(amountOfQuestions.getText().toString()));
         try {
             questions = task.get();
         } catch (ExecutionException | InterruptedException e) {
@@ -134,32 +82,39 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void getData (View view) {
-        new AsyncTask<Void, Void, Void>() {
+    public void onParamUpdate (View view) {
+        int amountOfQuestions = Integer.parseInt(this.amountOfQuestions.getText().toString());
+        int amountOfOptions = Integer.parseInt(this.amountOfOptionsInAQuestion.getText().toString());
+
+        task = new AsyncTask<Integer, Void, List<List<String>>>() {
             @Override
-            protected Void doInBackground(Void... voids) {
+            protected List<List<String>> doInBackground(Integer... ints) {
+//                return manager.getBestOptions(ints[0], ints[1]);
+
                 try {
-                    System.out.println("DATA: " + reporter.getData("A20:C22"));
+                    List<List<String>> bestOptions = manager.getBestOptions(ints[0], ints[1]);
+                    MainActivity.this.runOnUiThread(() -> {
+                        findViewById(R.id.main_start).setEnabled(true);
+                    });
+                    return bestOptions;
                 } catch (UserRecoverableAuthIOException e) {
-                    startActivityForResult(e.getIntent(), Reporter.REQUEST_AUTHORIZATION);
+                    startActivityForResult(e.getIntent(), REQUEST_AUTHORISATION);
+                    return null;
                 }
-                return null;
             }
-        }.execute();
-    }
 
-    @SuppressLint("StaticFieldLeak")
-    public void sendData (View view) {
-        Toast.makeText(getApplicationContext(), "Sending data: " + Arrays.asList("A", "B", "C"), Toast.LENGTH_LONG).show();
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
+//            @Override
+//            protected void onPreExecute () {
+//
+//            }
+//
+//            @Override
+//            protected void onPostExecute (List<List<String>> lists) {
+//                findViewById(R.id.main_start).setEnabled(true);
+//            }
+        };
 
-                reporter.reportData(Arrays.asList("A", "B", "C"));
-                return null;
-            }
-        }.execute();
-
+        task.execute(amountOfQuestions, amountOfOptions);
     }
 
     public void getPerms () {
@@ -193,26 +148,12 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
                 reporter = new Reporter(credentials);
                 manager = new QuestionManager(reporter);
-                task.execute(amountOfQuestions.getProgress() + 2, amountOfOptionsInAQuestion.getProgress() + 2);
+//                task.execute(Integer.parseInt(amountOfQuestions.getText().toString()), Integer.parseInt(amountOfOptionsInAQuestion.getText().toString()));
 
                 break;
 
             case REQUEST_AUTHORISATION:
-                if (resultCode == RESULT_OK) {
-                    task = new AsyncTask<Integer, Void, List<List<String>>>() {
-                        @Override
-                        protected List<List<String>> doInBackground(Integer... ints) {
-//                return manager.getBestOptions(ints[0], ints[1]);
-                            try {
-                                return manager.getBestOptions(5, 3);
-                            } catch (UserRecoverableAuthIOException e) {
-                                startActivityForResult(e.getIntent(), REQUEST_AUTHORISATION);
-                                return null;
-                            }
-                        }
-                    };
-                    task.execute();
-                }
+                System.out.println("Authorized");
                 break;
         }
     }

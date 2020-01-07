@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_linear_layout"
 
         android:layout_width="match_parent"
@@ -21,58 +21,72 @@
 
         android:orientation="vertical"
         >
-        <TextView
-            android:id="@+id/main_amount_of_options_in_a_question_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
 
-            android:text="@string/amount_of_options_in_a_question"
-            android:layout_marginTop="@dimen/default_margin"
-            android:layout_marginStart="@dimen/default_margin"
-            android:layout_marginEnd="@dimen/default_margin"
-
-            android:layout_gravity="center_horizontal"
-            />
-
-        <SeekBar
+        <EditText
             android:id="@+id/main_amount_of_options_in_a_question"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-
-            android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
-
-            android:max="10"
 
             android:layout_margin="@dimen/default_margin"
 
-            />
-
-        <TextView
-            android:id="@+id/main_amount_of_questions_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="@string/amount_of_questions"
-            android:layout_marginTop="@dimen/default_margin"
-            android:layout_marginStart="@dimen/default_margin"
-            android:layout_marginEnd="@dimen/default_margin"
-
-            android:layout_gravity="center_horizontal"
-            />
-
-        <SeekBar
-            android:id="@+id/main_amount_of_questions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
-
+            android:hint="@string/amount_of_options_in_a_question"
             android:max="10"
-            android:layout_margin="@dimen/default_margin"/>
 
-    </LinearLayout>
+            app:layout_constraintEnd_toStartOf="@+id/main_amount_of_options_in_a_question_ok"
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:text="3"
+
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/main_amount_of_options_in_a_question_ok"
+
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+
+            android:text="@string/ok"
+
+            app:layout_constraintBaseline_toBaselineOf="@id/main_amount_of_options_in_a_question"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="onParamUpdate"
+            />
+
+
+        <EditText
+            android:id="@+id/main_amount_of_questions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="@dimen/default_margin"
+
+            android:text="5"
+
+            android:hint="@string/amount_of_questions"
+            android:max="10"
+            android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/main_amount_of_questions_ok"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_amount_of_options_in_a_question" />
+
+        <Button
+            android:id="@+id/main_amount_of_questions_ok"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+
+            android:text="@string/ok"
+            app:layout_constraintBaseline_toBaselineOf="@id/main_amount_of_questions"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="onParamUpdate"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
+        android:id="@+id/main_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 

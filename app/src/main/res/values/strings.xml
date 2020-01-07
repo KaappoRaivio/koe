@@ -12,4 +12,5 @@
     <string name="amount_of_questions">Amount of questions:\ </string>
     <string name="start">start</string>
     <string name="finish">finish</string>
+    <string name="ok">ok</string>
 </resources>
