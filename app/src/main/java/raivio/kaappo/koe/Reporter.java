@@ -25,6 +25,7 @@ public class Reporter {
 
     public static final int REQUEST_AUTHORIZATION = 1001;
 
+    public static Reporter instance2;
     public static Reporter instance;
 
     private Sheets service;
@@ -34,14 +35,20 @@ public class Reporter {
         return Optional.of(instance).orElseThrow(RuntimeException::new);
     }
 
-    public Reporter (GoogleAccountCredential credential) {
+    public static Reporter getInstance2 () {
+        return Optional.of(instance2).orElseThrow(RuntimeException::new);
+    }
+    
+    public Reporter (GoogleAccountCredential credential, String spreadsheetId) {
         if (instance == null) {
             instance = this;
+        } else if (instance2 == null) {
+            instance2 = this;
         } else {
             throw new RuntimeException("Already instance");
         }
         this.credential = credential;
-        spreadsheetId = "1tUQ9kKtYC3K3IDGzoS8s8h50NtjYaZ4x2uq02DZMLVs";
+        this.spreadsheetId = spreadsheetId;
 
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();

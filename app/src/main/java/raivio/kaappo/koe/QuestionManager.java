@@ -1,4 +1,4 @@
-package raivio.kaappo.koe.ui_shit;
+package raivio.kaappo.koe;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 
@@ -18,12 +18,14 @@ import raivio.kaappo.koe.Reporter;
 
 public class QuestionManager {
     private Reporter reporter;
+    private Reporter reporter2;
 
-    public QuestionManager (Reporter reporter) {
+    public QuestionManager (Reporter reporter, Reporter reporter2) {
         this.reporter = reporter;
+        this.reporter2 = reporter2;
     }
 
-    public List<List<String>> getBestOptions (int amountOfQuestions, int amountOfOptions) throws UserRecoverableAuthIOException{
+    public List<List<String>> getBestOptionsM (int amountOfQuestions, int amountOfOptions) throws UserRecoverableAuthIOException {
 //        List<Pair<String, Integer>> list = new ArrayList<>();
 //
 //        List<String> options = getOptions();
@@ -36,10 +38,10 @@ public class QuestionManager {
 //        list.sort((x, y) -> x.getV() - y.getV());
 //
 //        return list.subList(0, amount).stream().map(x -> x.getK()).collect(Collectors.toList());
-        List<String> options = getOptions();
+        List<String> options = getOptions(reporter);
         List<List<String>> result = new ArrayList<>();
 
-        Random random = new Random(56245);
+        Random random = new Random();
 
         for (int i = 0; i < amountOfQuestions; i++) {
             List<String> temp = new ArrayList<>();
@@ -52,14 +54,38 @@ public class QuestionManager {
                 }
             }
             result.add(temp);
-
-            System.out.println("ALive");
         }
+
+
 
         return result;
     }
 
-    private List<String> getOptions () throws UserRecoverableAuthIOException {
+    public List<List<String>> getBestOptionsL (int amountOfQuestions, int amountOfOptions) throws UserRecoverableAuthIOException {
+        List<String> options = getOptions(reporter2);
+        List<List<String>> result = new ArrayList<>();
+
+        Random random = new Random();
+
+        for (int i = 0; i < amountOfQuestions; i++) {
+            List<String> temp = new ArrayList<>();
+            for (int j = 0; j < amountOfOptions; j++) {
+                String string = options.get(random.nextInt(options.size()));
+                if (temp.contains(string)) {
+                    j--;
+                } else {
+                    temp.add(string);
+                }
+            }
+            result.add(temp);
+        }
+
+
+
+        return result;
+    }
+
+    private List<String> getOptions (Reporter reporter) throws UserRecoverableAuthIOException {
         System.out.println("Getoptions");
         List<List<String>> data;
 

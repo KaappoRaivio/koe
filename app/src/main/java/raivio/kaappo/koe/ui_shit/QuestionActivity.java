@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import raivio.kaappo.koe.MainActivity;
+import raivio.kaappo.koe.QuestionManager;
 import raivio.kaappo.koe.R;
 import raivio.kaappo.koe.Reporter;
 
@@ -28,6 +29,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     private ViewPager2 pager2;
     private Reporter reporter;
+    private Reporter reporter2;
     private QuestionManager manager;
 
     private int amountOfQuestions;
@@ -45,10 +47,11 @@ public class QuestionActivity extends AppCompatActivity {
         System.out.println("ALIVE");
 
         reporter = Reporter.getInstance();
+        reporter2 = Reporter.getInstance2();
         pager2 = findViewById(R.id.viewPager2);
-        manager = new QuestionManager(reporter);
+        manager = new QuestionManager(reporter, reporter2);
 
-        pager2.setAdapter(new QuestionView.Adapter(MainActivity.questions));
+        pager2.setAdapter(new QuestionView.Adapter(MainActivity.questions, MainActivity.questions2));
 
 
         DotsIndicator indicator = findViewById(R.id.question_dots_indicator);
@@ -62,7 +65,7 @@ public class QuestionActivity extends AppCompatActivity {
             protected Void doInBackground(Void... voids) {
                 try {
                     System.out.println("DATA: " + reporter.getData("A20:C22"));
-                    System.out.println("MANAGER: " + manager.getBestOptions(3, 2));
+                    System.out.println("MANAGER: " + manager.getBestOptionsM(3, 2));
                 } catch (UserRecoverableAuthIOException e) {
                     startActivityForResult(e.getIntent(), Reporter.REQUEST_AUTHORIZATION);
                 }
@@ -85,7 +88,11 @@ public class QuestionActivity extends AppCompatActivity {
                 @Override
                 protected Boolean doInBackground(Void... voids) {
                     try {
-                        reporter.reportData(result);
+                        if (result.stream().max((x, y) -> x.charAt(0) - y.charAt(0)).orElse("A").charAt(0) > 'f') {
+                            reporter2.reportData(result);
+                        } else {
+                            reporter.reportData(result);
+                        }
                         return true;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -127,7 +134,11 @@ public class QuestionActivity extends AppCompatActivity {
                 @Override
                 protected Boolean doInBackground(Void... voids) {
                     try {
-                        reporter.reportData(result);
+                        if (result.stream().max((x, y) -> x.charAt(0) - y.charAt(0)).orElse("A").charAt(0) > 'f') {
+                            reporter2.reportData(result);
+                        } else {
+                            reporter.reportData(result);
+                        }
                         return true;
                     } catch (Exception e) {
                         e.printStackTrace();

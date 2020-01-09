@@ -268,11 +268,13 @@ public class QuestionView extends ConstraintLayout {
     }
 
     public static class Adapter extends RecyclerView.Adapter<Holder> {
-        private List<List<String>> questions;
+        private List<List<String>> questionsM;
+        private List<List<String>> questionsL;
         private List<QuestionView> views = new ArrayList<>();
 
-        public Adapter (List<List<String>> questions) {
-            this.questions = questions;
+        public Adapter (List<List<String>> questionsM, List<List<String>> questionsL) {
+            this.questionsM = questionsM;
+            this.questionsL = questionsL;
         }
 
         @NonNull
@@ -287,14 +289,19 @@ public class QuestionView extends ConstraintLayout {
 
         @Override
         public void onBindViewHolder (@NonNull Holder holder, int position) {
-//            holder.bind(questions.get(position));
-            holder.bind(questions.get(position));
-            views.add(holder.questionView);
+//            holder.bind(questionsM.get(position));
+            try {
+                holder.bind(questionsM.get(position));
+                views.add(holder.questionView);
+            } catch (IndexOutOfBoundsException e) {
+                holder.bind(questionsL.get(position - questionsM.size()));
+                views.add(holder.questionView);
+            }
         }
 
         @Override
         public int getItemCount () {
-            return questions.size();
+            return questionsM.size() + questionsL.size();
         }
 
         public QuestionView getAt (int position) {

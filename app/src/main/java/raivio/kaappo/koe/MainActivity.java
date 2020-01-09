@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import pub.devrel.easypermissions.EasyPermissions;
 import raivio.kaappo.koe.ui_shit.QuestionActivity;
-import raivio.kaappo.koe.ui_shit.QuestionManager;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
@@ -37,13 +36,14 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     GoogleAccountCredential credentials;
     private Reporter reporter;
+    private Reporter reporter2;
 
     private EditText amountOfQuestions;
     private EditText amountOfOptionsInAQuestion;
 
     private QuestionManager manager;
 
-    private AsyncTask<Integer, Void, List<List<String>>> task;
+    private AsyncTask<Integer, Void, Pair<List<List<String>>, List<List<String>>>> task;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,15 +64,17 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     }
 
     public static List<List<String>> questions;
+    public static List<List<String>> questions2;
 
     public void onStartButtonPress (View view) {
-        manager = new QuestionManager(reporter);
+        manager = new QuestionManager(reporter, reporter2);
         Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt(AMOUNT_OF_QUESTIONS, Integer.parseInt(amountOfQuestions.getText().toString()));
         bundle.putInt(AMOUNT_OF_OPTIONS, Integer.parseInt(amountOfQuestions.getText().toString()));
         try {
-            questions = task.get();
+            questions = task.get().getK();
+            questions2 = task.get().getV();
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -85,17 +87,18 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         int amountOfQuestions = Integer.parseInt(this.amountOfQuestions.getText().toString());
         int amountOfOptions = Integer.parseInt(this.amountOfOptionsInAQuestion.getText().toString());
 
-        task = new AsyncTask<Integer, Void, List<List<String>>>() {
+        task = new AsyncTask<Integer, Void, Pair<List<List<String>>, List<List<String>>>>() {
             @Override
-            protected List<List<String>> doInBackground(Integer... ints) {
-//                return manager.getBestOptions(ints[0], ints[1]);
+            protected Pair<List<List<String>>, List<List<String>>> doInBackground (Integer... ints) {
+//                return manager.getBestOptionsM(ints[0], ints[1]);
 
                 try {
-                    List<List<String>> bestOptions = manager.getBestOptions(ints[0], ints[1]);
+                    List<List<String>> bestOptions = manager.getBestOptionsM(ints[0], ints[1]);
+                    List<List<String>> bestOptionsL = manager.getBestOptionsL(ints[0], ints[1]);
                     MainActivity.this.runOnUiThread(() -> {
                         findViewById(R.id.main_start).setEnabled(true);
                     });
-                    return bestOptions;
+                    return new Pair<List<List<String>>, List<List<String>>>(bestOptions, bestOptionsL);
                 } catch (UserRecoverableAuthIOException e) {
                     startActivityForResult(e.getIntent(), REQUEST_AUTHORISATION);
                     return null;
@@ -145,8 +148,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     credentials.setSelectedAccountName(Objects.requireNonNull(data).getStringExtra(AccountManager.KEY_ACCOUNT_NAME));
                 }
 
-                reporter = new Reporter(credentials);
-                manager = new QuestionManager(reporter);
+                reporter = new Reporter(credentials, "1tUQ9kKtYC3K3IDGzoS8s8h50NtjYaZ4x2uq02DZMLVs");
+                reporter2 = new Reporter(credentials, "1Xp3yVkdWE9q-QRW51jl5KQch6arEHe2Fv1vkuE8haY8");
+                manager = new QuestionManager(reporter, reporter2);
 //                task.execute(Integer.parseInt(amountOfQuestions.getText().toString()), Integer.parseInt(amountOfOptionsInAQuestion.getText().toString()));
 
                 break;
